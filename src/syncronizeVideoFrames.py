@@ -16,8 +16,10 @@ def resize_image(image, max_size=640):
 
 
 
-names = ['N:/Temp/WeWantAPinpongTable/lateral/lateral_01.mp4', 'N:/Temp/WeWantAPinpongTable/up/up_01.mp4']
-delay = json.load(open('N:/Temp/WeWantAPinpongTable/01.json'))
+numberVideo = '01'
+
+names = ['N:/Temp/WeWantAPinpongTable/lateral/lateral_' + numberVideo + '.mp4', 'N:/Temp/WeWantAPinpongTable/up/up_' + numberVideo + '.mp4']
+delay = json.load(open('N:/Temp/WeWantAPinpongTable/' + numberVideo + '.json'))
 
 
 
@@ -48,7 +50,7 @@ while True:
                 [image_Concat, scaleImg] = resize_image(image_Concat, 1500)
                 cv2.imshow('video', image_Concat)
 
-    if cv2.waitKey(2) & 0xFF == ord('q'):
+    if cv2.waitKey(0) & 0xFF == ord('q'):
        break
 
 
