@@ -1,16 +1,17 @@
 import cv2
 import numpy as np
-from segmentation import segment_ball
+from segmentation import segment_ball, segment_ball_up
 from utils import resize_image
 
-cap = cv2.VideoCapture('C:/Users/user/Documents/Workspace/Python/WeWantAPingpongTable/data/lateral/lateral_01.mp4')
+cap = cv2.VideoCapture('C:/Users/user/Documents/Workspace/Python/WeWantAPingpongTable/data/up/up_01.mp4')
 
 while cap.isOpened():
     ret, frame = cap.read()
 
     frame, scale = resize_image(frame, 640)
 
-    segment_ball(frame)
+    # segment_ball(frame)
+    segment_ball_up(frame)
     cv2.imshow('frame', frame)
     cv2.waitKey(0)
     if cv2.waitKey(1) & 0xFF == ord('q'):
