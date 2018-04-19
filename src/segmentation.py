@@ -11,7 +11,7 @@ ballBGRLowerUpHSV = (5, 80, 0)
 ballBGRUpperUpHSV = (45, 255, 255)
 
 
-def segment_ball(image):
+def segment_ball(image, mask_aux=[]):
 
     image_ = image.copy()
 
@@ -23,6 +23,8 @@ def segment_ball(image):
     mask_playzone[100:-30, 10:-10] = 255
 
     mask = cv2.bitwise_and(mask, mask_playzone)
+    if mask_aux:
+        mask = cv2.bitwise_and(mask, mask_aux)
 
     # cv2.imshow("mask", mask)
     # cv2.imshow("mask_playzone", mask_playzone)
@@ -34,23 +36,24 @@ def segment_ball(image):
                             cv2.CHAIN_APPROX_SIMPLE)[-2]
 
     # only proceed if at least one contour was found
-    contours = []
+    bb = []
     if len(cnts) > 0:
         # find the largest contour in the mask, then use
         # it to compute the minimum enclosing circle and
         # centroid
-        print " "
+        max_area = 0
         for cnt in cnts:
             x, y, w, h = cv2.boundingRect(cnt)
             area = cv2.contourArea(cnt)
             ar = float(w) / h
-            if area > 10:
-                print area, ar
             if 15 < area < 150 and 1/2 < ar < 2:
                 cv2.rectangle(image_, (x, y), (x + w, y + h), (0, 255, 255), 2)
-                contours.append(cnt)
-        cv2.imshow("circle", image_)
-        return contours
+                if area > max_area:
+                    max_area = area
+                    x, y, w, h = cv2.boundingRect(cnt)
+                    bb = [x, y, w, h]
+    cv2.imshow("circle", image_)
+    return bb
 
 
 def segment_ball_up(image, mask_aux=[]):
