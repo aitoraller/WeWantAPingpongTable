@@ -23,7 +23,7 @@ def segment_ball(image, mask_aux=[]):
     mask_playzone[100:-30, 10:-10] = 255
 
     mask = cv2.bitwise_and(mask, mask_playzone)
-    if mask_aux:
+    if mask_aux.shape[0]>0:
         mask = cv2.bitwise_and(mask, mask_aux)
 
     # cv2.imshow("mask", mask)
@@ -68,7 +68,7 @@ def segment_ball_up(image, mask_aux=[]):
     mask_playzone[30:-30, 10:-10] = 255
 
     mask = cv2.bitwise_and(mask, mask_playzone)
-    if mask_aux:
+    if mask_aux.shape[0] > 0:
         mask = cv2.bitwise_and(mask, mask_aux)
 
     cv2.imshow("mask", mask )
