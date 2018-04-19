@@ -1,32 +1,20 @@
 import cv2
 import numpy as np
+from segmentation import segment_ball
+from utils import resize_image
 
-cap = cv2.VideoCapture('data/lateral/lateral_01.mp4')
+cap = cv2.VideoCapture('C:/Users/user/Documents/Workspace/Python/WeWantAPingpongTable/data/lateral/lateral_01.mp4')
 
-# Check if camera opened successfully
-if cap.isOpened()== False:
-  print"Error opening video stream or file"
-
-# Read until video is completed
 while cap.isOpened():
+    ret, frame = cap.read()
 
-  # Capture frame-by-frame
-  ret, frame = cap.read()
-  if ret == True:
+    frame, scale = resize_image(frame, 640)
 
-    # Display the resulting frame
-    cv2.imshow('Frame', frame)
+    segment_ball(frame)
+    cv2.imshow('frame', frame)
+    cv2.waitKey(0)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
 
-    # Press Q on keyboard to  exit
-    if cv2.waitKey(25) & 0xFF == ord('q'):
-      break
-
-  # Break the loop
-  else:
-    break
-
-# When everything done, release the video capture object
 cap.release()
-
-# Closes all the frames
 cv2.destroyAllWindows()
